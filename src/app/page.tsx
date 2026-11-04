@@ -1,69 +1,215 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState("");
+
+async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+
+  setMessage("");
+  setLoading(true);
+
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(data.message || "Login failed.");
+      return;
+    }
+
+    window.location.href = data.redirectTo;
+  } catch (error) {
+    console.error("Login error:", error);
+    setMessage("Unable to connect to the server. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+}
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="flex min-h-screen items-center justify-center bg-background p-5 md:p-8">
+
+      <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-surface shadow-xl md:grid-cols-2">
+
+        {/* Left branding section */}
+        <section className="relative flex min-h-64 flex-col justify-between overflow-hidden bg-[#3B2D20] p-8 text-[#FFFCF8] md:min-h-[600px] md:p-12">
+
+          <div className="relative z-10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F6C45C]">
+              <span className="text-2xl font-bold text-[#3B2D20]">W</span>
+            </div>
+
+            <h1 className="mt-6 text-2xl font-bold tracking-wide">
+              WEIGHCONNECT
+            </h1>
+
+            <p className="mt-2 text-sm tracking-widest text-[#D9C7B4]">
+              PLANT OPERATIONS MANAGEMENT
+            </p>
+          </div>
+
+          <div className="relative z-10 mt-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#F6C45C]">
+              Welcome back
+            </p>
+
+            <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+              Everything connected.
+              <br />
+              Every operation
+              <br />
+              under control.
+            </h2>
+
+            <p className="mt-5 max-w-sm text-sm leading-7 text-[#D9C7B4]">
+              A centralized platform for plant transactions, weighbridge
+              operations, reports and configuration management.
+            </p>
+          </div>
+
+          {/* Decorative circles */}
+          <div className="pointer-events-none absolute -bottom-24 -right-20 h-72 w-72 rounded-full border border-[#A78A6C]/30" />
+          <div className="pointer-events-none absolute -bottom-12 -right-8 h-48 w-48 rounded-full border border-[#A78A6C]/30" />
+
+          <p className="relative z-10 mt-12 text-xs text-[#BDAA96]">
+            WeighConnect · Secure Plant Access
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        </section>
+
+        {/* Right login section */}
+        <section className="flex items-center justify-center p-8 md:p-12">
+
+          <div className="w-full max-w-sm">
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+                Account Access
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold text-foreground">
+                Sign in
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-muted">
+                Enter your credentials to access WeighConnect.
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="mt-9 space-y-6">
+
+             {/* Email Address */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-2 block text-sm font-semibold text-foreground"
+                >
+                  Email Address
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Enter your email address"
+                  autoComplete="email"
+                  required
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3.5 text-sm text-foreground outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                />
+              </div>
+              {/* Password */}
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="text-sm font-semibold text-foreground"
+                  >
+                    Password
+                  </label>
+                </div>
+
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    required
+                    className="w-full rounded-xl border border-border bg-background px-4 py-3.5 pr-16 text-sm text-foreground outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                  />                
+                </div>
+              </div>
+
+              {/* Remember me */}
+              <div className="flex items-center">
+                <input
+                  id="rememberMe"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                  className="h-4 w-4 accent-[#6F5038]"
+                />
+
+                <label
+                  htmlFor="rememberMe"
+                  className="ml-2 text-sm text-muted"
+                >
+                  Remember me
+                </label>
+              </div>
+
+              {/* Sign in */}
+               <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {loading ? "Signing In..." : "Sign In"}
+                    </button>
+              {message && (
+                <p
+                  role="status"
+                  className="rounded-lg border border-border bg-background p-3 text-sm text-muted"
+                >
+                  {message}
+                </p>
+              )}
+
+            </form>
+
+            <div className="mt-10 border-t border-border pt-6 text-center">
+              <p className="text-xs leading-5 text-muted">
+                Authorized personnel only.
+                <br />
+                Contact your administrator if you need access.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
   );
 }
+

@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
+/* WeighConnect - Warm Sand Light theme */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F6F2EA;
+  --foreground: #3B2D20;
+
+  --surface: #FFFCF8;
+  --surface-secondary: #EEE5D8;
+
+  --primary: #6F5038;
+  --primary-hover: #5A402D;
+
+  --accent: #F6C45C;
+
+  --border: #E3D6C5;
+  --muted: #786B5E;
+
+  --success: #2F7654;
+  --warning: #B7791F;
+  --danger: #B5473C;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
 }

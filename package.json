@@ -9,13 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "jose": "^6.2.14",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
     "next": "16.4.3",
+    "oracledb": "^26.0.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
+    "@types/oracledb": "^26.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
